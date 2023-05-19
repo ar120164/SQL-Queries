@@ -1,0 +1,36 @@
+excercises
+1. Using ANSI 99 join syntax, build a report, which contains name of the department, last and first names of employees working in such departments with their annual salary
+   Please, exclude from this report departments with ids greater, than 80
+
+SELECT d.department_name, e.last_name, e.first_name, e.salary*12
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+MINUS
+SELECT d.department_name, e.last_name, e.first_name, e.salary*12
+FROM departments d, employees e
+WHERE d.department_id = e.department_id AND d.department_id > 80
+
+2. Using ANSI 99 join syntax, build a report, which contains name of the department and average salary of all employees working in this department.
+   Please, exclude from this report departments hiring less, than 3 employees
+
+SELECT d.department_name, avg(e.salary)
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+GROUP BY d.department_name
+MINUS
+SELECT d.department_name, avg(e.salary)
+FROM departments d, employees e
+WHERE d.department_id = e.department_id 
+HAVING count(e.employee_id) < 3
+GROUP BY d.department_name
+
+3. Using ANSI 99 join syntax, build a report, which displays information about department name, last and first name of employees working in such department.
+   Please, include in this report also data about departments, which don't have any employees
+
+SELECT d.department_name, e.last_name, e.first_name
+FROM departments d
+LEFT OUTER JOIN employees e ON d.department_id = e.department_id
+
+SELECT d.department_name, e.last_name, e.first_name
+FROM employees e
+RIGHT OUTER JOIN departments d ON d.department_id = e.department_id

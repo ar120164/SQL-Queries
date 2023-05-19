@@ -1,0 +1,56 @@
+Excercises
+1. display job_id, last name, first name and salary of all employees with salary lower, than average salary for their job_id
+
+SELECT job_id, last_name, first_name, salary
+FROM employees e
+WHERE salary < ( SELECT AVG(salary)
+                 FROM employees
+                 WHERE job_id = e.job_id)
+
+
+2. display name of the department, last and first names and salaries of all employees with salary higher, than average salary in their departments
+
+SELECT department_id, last_name, first_name, salary
+FROM employees e
+WHERE salary > ( SELECT AVG(salary)
+                 FROM employees
+                 WHERE department_id = e.department_id)
+
+
+3. display name of the department, last and first names and salaries of all employees with salary lower, than maximum salary in their departments
+
+SELECT department_id, last_name, first_name, salary
+FROM employees e
+WHERE salary < ( SELECT MAX(salary)
+                 FROM employees
+                 WHERE department_id = e.department_id)
+
+
+4. display last and first names of 4 employees latest hired employees
+
+SELECT last_name, first_name, hire_date
+FROM employees e
+where 4 > ( SELECT count(*)
+            FROM employees
+            WHERE hire_date > e.hire_date)
+
+Homework
+
+1. display information (department id and its number of employees) about 3 largest departments (3 departments hiring the largest number of employees)
+
+SELECT department_id, Num_of_employees
+FROM (SELECT department_id, count(department_id) as Num_of_employees
+      FROM employees
+      GROUP BY department_id
+      ORDER BY count(department_id) desc)
+WHERE rownum <= 3;
+
+2. display information about grade level, last name, first name and salary of all employees with salaries higher, than average salary in their grade level
+   (information about grade levels is stored in JOB_GRADES table)
+
+SELECT e.last_name, e.first_name, e.salary, j2.avg_salary
+FROM employees e, job_grades j, (SELECT grade_level, avg(salary) avg_salary
+                                 FROM employees, job_grades
+                                 WHERE salary BETWEEN lowest_sal AND highest_SAL 
+                                 GROUP BY grade_level) j2
+WHERE j.grade_level = j2.grade_level AND e.salary > j2.avg_salary;

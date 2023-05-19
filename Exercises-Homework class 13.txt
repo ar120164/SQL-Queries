@@ -1,0 +1,64 @@
+excercises
+1. write a query, which will return department name, grade level, manager id and maximum salary calculated at the following aggregation levels
+
+   - department name
+   - department name, manager id,
+   - department name, grade level,
+   - grade level, manager id
+   - total
+
+SELECT d.department_name, j.grade_level, e.manager_id, max(e.salary)
+FROM employees e, departments d, job_grades j 
+WHERE e.department_id = d.department_id 
+      AND (e.salary BETWEEN j.lowest_sal AND j.highest_sal)
+GROUP BY grouping sets ((d.department_name),(d.department_name,e.manager_id),(d.department_name,j.grade_level),(j.grade_level, e.manager_id),())
+
+
+2. write a query, which will return department name, job id, maximum, minimum and average salary at the following aggregation levels:
+   - department name, job id,
+   - job id,
+   - department name
+   
+SELECT d.department_name, c.job_id, max(e.salary), min(e.salary), avg(e.salary)
+FROM employees e, departments d, jobs c
+WHERE e.department_id = d.department_id 
+      AND c.job_id = e.job_id
+GROUP BY grouping sets ((d.department_name,c.job_id),(c.job_id),(d.department_name))
+
+
+3. write a query, which will return name of the city, name of the department and number of employees calculated at the following aggregation levels:
+   - name of the city
+   - name of the city and name of the department
+   - name of the department
+
+SELECT l.city, d.department_name, count(e.employee_id)
+FROM locations l, employees e, departments d
+WHERE e.department_id = d.department_id 
+      AND l.location_id = d.location_id 
+GROUP BY grouping sets ((l.city),(l.city,d.department_name),(d.department_name))
+
+
+Homework
+1. write a query, which will return name of the city, grade level and average salary calculated at the following aggregation levels
+   - name of the city, grade level
+   - grade level
+   - name of the city
+
+SELECT l.city, j.grade_level, avg(e.salary)
+FROM locations l, employees e, departments d, job_grades j 
+WHERE e.department_id = d.department_id 
+      AND l.location_id = d.location_id
+      AND (e.salary BETWEEN j.lowest_sal AND j.highest_sal)
+GROUP BY grouping sets ((l.city,j.grade_level),(j.grade_level),(l.city))
+
+
+2. write a query, which will return name of the city, year of hiring, number of employees calculated at the following aggregation levels
+   - name of the city
+   - year of hiring
+   - total
+
+SELECT l.city, TO_CHAR(e.hire_date,'YYYY'), COUNT(e.employee_id)
+FROM locations l, employees e, departments d
+WHERE e.department_id = d.department_id 
+      AND l.location_id = d.location_id
+GROUP BY grouping sets ((l.city),(TO_CHAR(e.hire_date,'YYYY')),())

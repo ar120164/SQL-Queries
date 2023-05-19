@@ -1,0 +1,77 @@
+Exercises
+1. read last name, first name and salary of all employees working in department 10 and with salary greater than 2000
+SELECT LAST_NAME, FIRST_NAME, SALARY
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 10 AND SALARY > 2000;
+
+2. read id, last name, first name and salary of all employees working in all departments, but not 10 and with salaries less or equal 5000
+SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID <> 10 AND SALARY <= 5000;
+
+3. find an employee (his last name and first name) who has not got a manager
+SELECT LAST_NAME, FIRST_NAME
+FROM EMPLOYEES
+WHERE MANAGER_ID IS NULL;
+
+4. build a report containing ids, last and first names, hire date of all employees from department 20
+SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, HIRE_DATE
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 20;
+
+5. Who is not a clerk? (clerk has a job id that consists of CLERK somewhere in the job_id)
+SELECT LAST_NAME, FIRST_NAME
+FROM EMPLOYEES
+WHERE JOB_ID IN ('%CLERK%');
+
+6. build a list of employees (employee_id, last_name, first_name, salary, department), who have managers and work in the following departments: 10, 30, 40
+SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, DEPARTMENT_ID
+FROM EMPLOYEES
+WHERE MANAGER_ID IS NOT NULL AND DEPARTMENT_ID IN (10,30,40);
+
+7. build a list of employees (employee_id, last_name, first_name, salary, job_id, department, who
+   a) work in department 10 or 20 or have salary > 3000
+	SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE SALARY > 3000 OR DEPARTMENT_ID IN (10,20);
+	
+   b) have managers and work on position ST_CLERK
+   	SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE MANAGER_ID IS NOT NULL AND JOB_ID LIKE '%ST_CLERK%';
+	
+   c) a AND b
+    SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE (SALARY > 3000 OR DEPARTMENT_ID IN (10,20)) AND (MANAGER_ID IS NOT NULL AND JOB_ID LIKE '%ST_CLERK%');
+   
+   d) a OR b
+    SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE (SALARY > 3000 OR DEPARTMENT_ID IN (10,20)) OR (MANAGER_ID IS NOT NULL AND JOB_ID LIKE '%ST_CLERK%');
+   
+   e) NOT ( a AND b)
+    SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE NOT ((SALARY > 3000 OR DEPARTMENT_ID IN (10,20)) AND (MANAGER_ID IS NOT NULL AND JOB_ID LIKE '%ST_CLERK%'));
+   
+   f) NOT a OR b
+	SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME, SALARY, JOB_ID, DEPARTMENT_ID
+	FROM EMPLOYEES
+	WHERE NOT (SALARY > 3000 OR DEPARTMENT_ID IN (10,20)) OR (MANAGER_ID IS NOT NULL AND JOB_ID LIKE '%ST_CLERK%');
+   
+
+Homework
+8. Who has the last name that consists of 4 letters and starts with K
+SELECT LAST_NAME
+FROM EMPLOYEES
+WHERE LENGTH(LAST_NAME) = 4 AND LAST_NAME like 'K%';
+	
+	
+9. What are the last names, jobs of employees who work in 50 department
+   and have the salary greater than 3000
+
+	SELECT LAST_NAME, JOB_ID
+	FROM EMPLOYEES
+	WHERE SALARY > 3000 AND DEPARTMENT_ID = 50;
+   

@@ -1,0 +1,52 @@
+Exercises
+
+1. read last names, first names and salaries for all employees
+   sort the results by salary descending and for every group of rows with the same salary - by last names alphabetically
+   
+SELECT LAST_NAME, FIRST_NAME, SALARY
+FROM employees
+ORDER BY SALARY DESC, LAST_NAME DESC;
+   
+
+2. create a report, which contains last names, first names, annual salaries of all employees from department 10
+
+SELECT LAST_NAME, FIRST_NAME, 12*SALARY
+FROM employees
+WHERE DEPARTMENT_ID = 10;
+  
+
+3. find all employees (last name, first name, monthly salary, id of their department), who have annual salary less than 100 000 
+
+SELECT LAST_NAME, FIRST_NAME, SALARY, DEPARTMENT_ID
+FROM employees
+WHERE 12*SALARY12 < 100000;
+  
+4. display all data for all departments
+SELECT *
+FROM DEPARTMENTS
+
+5. find all employees, with last names starting with 'A'
+SELECT *
+FROM EMPLOYEES
+WHERE LAST_NAME like 'A%';
+
+
+
+Homework
+
+1. build a report, which contains id of department, last name, first name, monthly salary and annual commission VALUE
+   for all employees, ordered by id of department and annual salary 
+SELECT DEPARTMENT_ID, LAST_NAME, FIRST_NAME, SALARY, 12*COMMISSION_PCT
+FROM EMPLOYEES
+ORDER BY DEPARTMENT_ID, SALARY;
+
+2. Build a report, which contains last and first names, annual salaries for all employess from department 20
+SELECT LAST_NAME, FIRST_NAME, 12*SALARY
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 20;
+
+
+3. Find all employees with last names ending with T
+SELECT *
+FROM EMPLOYEES
+WHERE LAST_NAME like '%T';

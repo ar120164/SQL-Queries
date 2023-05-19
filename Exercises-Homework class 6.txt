@@ -1,0 +1,49 @@
+Excercises
+
+1. build a report, which contains name of the department, last and first names of employees working in such departments with their annual salary
+   Please, exclude from this report departments with ids greater, than 80
+
+SELECT department_name, last_name, first_name, salary*12
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+OR d.department_id <= 80;
+
+
+
+2. build a report, which contains name of the department and average salary of all employees working in this department.
+   Please, exclude from this report departments hiring less, than 3 employees
+   
+SELECT department_name, avg(salary)
+FROM departments, employees
+WHERE departments.department_id = employees.department_id
+HAVING count(departments.department_name) <= 3
+GROUP BY departments.department_name;
+
+
+3. build a report, which contains city of a location and number of departments in a single city.
+SELECT city, count(department_id)
+FROM departments, locations
+WHERE locations.location_id = departments.location_id
+GROUP BY locations.city;
+
+
+4. build a report, which contains information about cities, names of all departments in a particular city and last and first names of employees working in such department
+   please, exclude from this report departments with ids 10, 20 and 30
+SELECT city, department_name, last_name, first_name
+FROM departments, locations, employees
+WHERE locations.location_id = departments.location_id AND departments.department_id = employees.department_id AND departments.department_id <> 10 AND departments.department_id <> 20 AND departments.department_id <> 30;
+
+    
+Homework
+1. Build a report, which contains information about name of department, number of employees working in this department, their maximum and minimum annual salaries
+SELECT department_name, count(last_name), max(salary*12), min(salary*12)
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+GROUP BY d.department_name
+
+
+2. Build a report, which contains information about number of cities in particular region (information about regions is stored in REGIONS table)
+SELECT region_name, count(city)
+FROM regions r, locations l, countries c
+WHERE r.region_id= c.region_id AND c.country_id= l.country_id
+GROUP BY r.region_name

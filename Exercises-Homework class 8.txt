@@ -1,0 +1,44 @@
+Excercises
+1. write a query, which displays information (name of the department, last and first names, hire date, salary) of employees, who have the lowest salaries in their departments
+SELECT department_id, last_name, first_name, hire_date, salary
+FROM employees
+WHERE (department_id, salary) IN (SELECT department_id, MIN(salary)
+                                  FROM employees
+                                  GROUP BY department_id);
+
+
+2. who has been hired and when as a last employee in the whole company
+SELECT last_name, first_name, hire_date
+FROM employees
+WHERE hire_date =  (SELECT MAX(hire_date) FROM employees);
+
+
+3. build a list of employees hired as last ones on their job positions
+SELECT job_id, last_name, first_name, hire_date
+FROM employees
+WHERE (job_id, hire_date) IN (SELECT job_id, MAX(hire_date)
+                                  FROM employees
+                                  GROUP BY job_id);
+
+
+4. build a list of employees with the highest salaries in their job grades
+SELECT e.last_name, e.first_name, g.grade_level, e.salary
+FROM employees e, job_grades g
+WHERE (g.grade_level, e.salary) IN (SELECT g.grade_level, MAX(e.salary)
+                                  FROM employees e,  job_grades g
+                                  WHERE (e.salary BETWEEN g.lowest_sal AND g.highest_SAL)
+                                  GROUP BY g.grade_level);
+
+Homework
+1. build a list of employees with the lowest salaries in their departments on their positions
+SELECT department_id, job_id, last_name, first_name, salary
+FROM employees
+WHERE (department_id, job_id, salary) IN (SELECT department_id, job_id, MIN(salary)
+                                  FROM employees
+                                  GROUP BY department_id, job_id);
+
+
+2. who has been (and when) hired as a first employee in the whole company
+SELECT last_name, first_name, hire_date
+FROM employees
+WHERE hire_date =  (SELECT MIN(hire_date) FROM employees);

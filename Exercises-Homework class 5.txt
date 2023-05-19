@@ -1,0 +1,36 @@
+1. build a report, containing number of department and maximum value of salary for every department
+	select department_id, max(salary)
+	from employees
+	group by department_id;
+
+2. build a report, containing job and number of employees for every job
+	select job_id, count(job_id)
+	from employees
+	group by job_id;
+
+3. which manager has more, than 2 employees ?
+	select manager_id
+	from employees
+	having count(manager_id) > 2
+	group by manager_id;
+
+4. what is the earliest date of hiring of any employee for every department ?
+	select department_id, min(hire_date)
+	from employees
+	group by department_id;
+
+
+Homework
+1. build a report, containing number of department, job and maximum salary for every combination of department and job
+	select department_id, job_id, max(salary)
+	from employees
+	group by department_id, job_id;
+
+2. which department has average salary less, than 4000 ?
+	select department_id
+	from employees
+	having avg(salary) < 4000
+	group by department_id;
+
+
+

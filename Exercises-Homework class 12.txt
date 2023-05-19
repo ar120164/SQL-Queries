@@ -1,0 +1,82 @@
+excercises
+
+1. create DEPT table with the following columns
+   DEPTNO number(4) - primary key, id of a department
+   DNAME  varchar2(60)
+   and, by using INSERT...SELECT, insert into this table all rows (but only appropriate columns) from DEPARTMENTS table
+
+  CREATE TABLE dept (deptno number(3) primary key,
+                     dname varchar2(60));
+
+  INSERT INTO dept (deptno, dname)
+  SELECT department_id, department_name 
+  FROM departments;
+
+
+2. create EMP table with the following columns
+   EMPNO NUMBER(10) - primary key (id of an employee)
+   NAME VARCHAR2(100) - not null (employee's last and first names)
+   SAL  NUMBER(7,2) - salary
+   DEPTNO NUMBER(4) - number of department, where the employee works, foreign key pointing to DEPT(DEPTNO) column
+
+
+  CREATE TABLE emp (empno number(10) primary key,
+                    name varchar2(100) not null,
+                    sal number(7,2),
+                    deptno number (4) references dept(deptno));
+
+
+3. using INSERT...SELECT insert into this table all rows (but only appropriate columns) from EMPLOYEES table. For NAME column concatenate last_name, space and first_name 
+   reminder: concatenation operator: ||
+
+  INSERT INTO emp (empno, name, sal, deptno)
+  SELECT employee_id, concat(concat(last_name,' '),first_name) as name, salary, department_id 
+  FROM employees
+
+
+4. create view EMP_SAL_STATS, which contains id of the department, its name, average, maximum and minimum of salary of all employees working in this department.
+   Use DEPT and EMP tables as the source.
+
+CREATE VIEW emp_sal_stats(department_id, department_name, avg_salary, max_salary, min_salary)
+AS
+SELECT d.department_id, d.department_name, AVG(e.salary), MAX(e.salary), MIN(e.salary)
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+GROUP BY (d.department_id, d.department_name)
+
+
+Homework   
+
+1. create view dep_sal_stats, which contains department_id, department_name and average salary for all employees working in such department
+   please, try to insert a row into this view. What is the result of this insert command ?
+
+CREATE VIEW dep_sal_stats(department_id, department_name, avg_salary)
+AS
+SELECT d.department_id, d.department_name, AVG(e.salary)
+FROM departments d, employees e
+WHERE d.department_id = e.department_id
+GROUP BY (d.department_id, d.department_name)
+
+INSERT INTO dep_sal_stats(department_id, department_name, avg_salary)
+VALUES (20,'Purchasing', 5000)
+
+
+2. create a table dept_job_stats with the following structure:
+    department_id number(3)
+    department_name varchar2(30),
+    job_id varchar2(30)
+    salary number(10,2)
+
+  CREATE TABLE dept_job_stats (department_id number(3),
+                               department_name varchar2(30),
+                               job_id varchar(30),
+                               salary number(10,2));
+    
+3. please try to insert into the table created in exercise 2 rows containing appropriate information read from departments and employees table
+   (try to use insert...select statement)
+
+  INSERT INTO dept_job_stats (department_id,department_name,job_id,salary)
+  SELECT d.department_id, d.department_name, e.job_id, e.salary
+  FROM departments d, employees e
+  WHERE d.department_id = e.department_id AND (e.employee_id = 100 OR e.employee_id = 101);
+

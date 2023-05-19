@@ -1,0 +1,53 @@
+Excercises:
+1. build a report, which displays the following information about employees and their managers:
+   last name, first name, hire date and salary
+   Please display information about only these employees, who have been hired earlier, than their managers
+
+SELECT e.last_name, e.first_name, e.hire_date, e.salary, m.last_name, m.first_name, m.hire_date,  m.salary
+FROM employees e, employees  m
+WHERE e.manager_id = m.employee_id AND e.hire_date < m.hire_date;
+
+
+2. build a report, which displays information about department name, last and first name of employees working in such department.
+   Please, include in this report also data about employees working in non-existing departments
+
+SELECT d.department_name, e.last_name, e.first_name
+FROM departments d, employees  e
+WHERE d.department_id = e.department_id AND d.department_id = e.department_id(+);
+
+
+3. build a report, which displays grade level and average salary of all employees in this particular grade level
+
+SELECT j.grade_level, avg(e.salary)
+FROM employees e, job_grades j
+WHERE salary BETWEEN lowest_sal AND highest_SAL
+GROUP BY (grade_level);
+
+
+4. build a report, which displays last and first name of a manager with maximum and minimum salary of his employees
+
+SELECT m.last_name, m.first_name, max(e.salary), min(e.salary)
+FROM employees e, employees  m
+WHERE e.manager_id = m.employee_id
+GROUP BY (m.last_name, m.first_name);
+
+
+Homework
+1. build a report, which contains the following data
+   last name, first name salary and grade level of managers,
+   last name, first name and grade level of their employees
+
+SELECT m.last_name, m.first_name, j.grade_level, e.last_name, e.first_name, g.grade_level
+FROM employees m, employees e, job_grades j, job_grades g
+WHERE m.manager_id = e.employee_id AND (m.salary BETWEEN j.lowest_sal AND j.highest_SAL) AND (e.salary BETWEEN g.lowest_sal AND g.highest_SAL);
+
+
+2. build a report, which contains the following information
+   last and first name of managers, grade levels of employees working for particular manager and their average salary 
+
+
+SELECT m.last_name, m.first_name, g.grade_level, avg(e.salary)
+FROM employees m, employees e, job_grades g
+WHERE m.manager_id = e.employee_id AND (e.salary BETWEEN g.lowest_sal AND g.highest_SAL)
+GROUP BY (m.last_name, m.first_name, g.grade_level);
+

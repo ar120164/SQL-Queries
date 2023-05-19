@@ -1,0 +1,39 @@
+excercises
+1. using the following statement, create a copy of employees table
+
+CREATE TABLE employees_copy
+AS SELECT *
+FROM employees;
+
+2. in the employees copy increase the salary by 10% for all persons in department 10
+
+UPDATE employees_copy
+SET salary = salary*1.1 
+WHERE department_id = 10;
+
+3. delete all employees, who have the highest salary in their own departments
+
+DELETE FROM employees_copy
+WHERE (department_id, salary) IN (SELECT department_id, max(salary) max_salary FROM employees GROUP BY department_id) 
+
+4. copy to employees copy table employees all employees fired in previous excercise, but set their salaries to the lowest in their departments
+
+INSERT INTO employees_copy
+SELECT * FROM employees
+WHERE (department_id, salary) IN (SELECT department_id, max(salary) max_salary FROM employees GROUP BY department_id) 
+
+UPDATE employees_copy e
+SET salary = (SELECT min(h.salary) min_salary FROM employees h WHERE e.department_id = h.department_id) 
+WHERE (e.department_id, e.salary) IN (SELECT h.department_id, max(h.salary) max_salary FROM employees h GROUP BY h.department_id);
+
+SELECT * 
+FROM EMPL
+
+homework
+1. move all employees from department 10 to 20
+UPDATE employees_copy
+SET department_id = 20
+WHERE department_id = 10;
+
+
+2. for all employees set their salaries to the lowest salary in their job grade

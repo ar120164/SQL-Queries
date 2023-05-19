@@ -1,0 +1,28 @@
+excercises:
+   1. display last and first names of all employees from department 10 and their salary increased by 10% and rounded to 2 decimal places
+   SELECT LAST_NAME, FIRST_NAME, ROUND(SALARY*1.10,2)
+   FROM EMPLOYEES
+   WHERE DEPARTMENT_ID = 10;
+  
+  2. display last and first names of all employees hired no earlier, than in 1st of January of 2000
+	SELECT LAST_NAME, FIRST_NAME
+	FROM EMPLOYEES
+	WHERE TO_CHAR(HIRE_DATE,'YYYY-MM-DD') > '2000-01-01';
+
+   3. display last and first names of all employees converted to upper cases
+     SELECT UPPER(LAST_NAME), UPPER(FIRST_NAME)
+	 FROM EMPLOYEES;
+	 
+  4. display last and first names, hiredate and salary of all employees, hire date should
+      converted to varchar2 value and contain NAME of the month (for example: 21-JANUARY-1999)
+      SELECT LAST_NAME FIRST_NAME, TO_CHAR(HIRE_DATE,'DD-MONTH-YYYY'), SALARY
+	  FROM EMPLOYEES;
+
+homework
+   1. build a report containing department number, last name converted to upper case, first name also converted to upper case, salary increased by 25% and truncated to 2 decimal places      
+ 	SELECT DEPARTMENT_ID, UPPER(LAST_NAME), UPPER(FIRST_NAME), TRUNC(SALARY*1.25,2)
+	FROM EMPLOYEES;
+	
+   2. build a report containing last names of all employees, all occurences of K letter should be replaced with A
+ 	SELECT  REPLACE(LAST_NAME,'K','A')
+	FROM EMPLOYEES;
